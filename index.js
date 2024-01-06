@@ -6,9 +6,9 @@ const connectDB = require("./config/db")
 const slot = require("./routes/api/slot")
 const payment = require("./routes/api/payment")
 
-app.use(cors())
-app.use(express.json());
 
+app.use(express.json());
+app.use(cors())
 connectDB()
 // Define a route
 app.use("/api/slot", slot)
