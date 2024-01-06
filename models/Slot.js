@@ -13,6 +13,7 @@ const slotModel = mongoose.Schema(
   { timestamps: true }
 );
 
+
 module.exports = mongoose.model("Slot", slotModel);
 
  
