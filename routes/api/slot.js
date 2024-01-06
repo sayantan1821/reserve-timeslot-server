@@ -12,8 +12,21 @@ router.post("/book", async (req, res) => {
   }
 });
 
+router.get("/:slotId", async (req, res) => {
+  slotId = req.params.slotId;
+  let slot;
+  try {
+    slot = await Slot.findOne({ _id: slotId });
+  } catch (error) {
+    res.status(400).json({ error: "server error" });
+    console.log(error.message);
+    return;
+  }
+  res.json(slot)
+});
+
 router.get("/allbookings", async (req, res) => {
-    let allbookings = []
+  let allbookings = [];
   try {
     allbookings = await Slot.find({ isDeleted: false });
   } catch (error) {
@@ -26,17 +39,17 @@ router.get("/allbookings", async (req, res) => {
 
 router.post("/update-slot/:slotId", async (req, res) => {
   slotId = req.params.slotId;
-  let updatedSlot
-  update = {date: req.body.date, timeSlot: req.body.timeSlot}
+  let updatedSlot;
+  update = { date: req.body.date, timeSlot: req.body.timeSlot };
   try {
     updatedSlot = await Slot.findByIdAndUpdate(
       slotId,
       { $set: update },
       {
-        new: true
+        new: true,
       }
     );
-    res.json(updatedSlot)
+    res.json(updatedSlot);
   } catch (error) {
     res.status(400).json({ error: "server error" });
     console.log(error.message);
@@ -44,20 +57,20 @@ router.post("/update-slot/:slotId", async (req, res) => {
 });
 
 router.post("/delete-slot/:slotId", async (req, res) => {
-    slotId = req.params.slotId;
-  let updatedSlot
+  slotId = req.params.slotId;
+  let updatedSlot;
   try {
     updatedSlot = await Slot.findByIdAndUpdate(
       slotId,
-      { $set: {isDeleted: true} },
+      { $set: { isDeleted: true } },
       {
-        new: true
+        new: true,
       }
     );
-    res.json(updatedSlot)
+    res.json(updatedSlot);
   } catch (error) {
     res.status(400).json({ error: "server error" });
     console.log(error.message);
   }
-})
+});
 module.exports = router;
