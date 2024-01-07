@@ -11,6 +11,15 @@ router.post("/book", async (req, res) => {
     console.log(error.message);
   }
 });
+router.get("/allbookings", async (req, res) => {
+  try {
+    const allbookings = await Slot.find({ isDeleted: false });
+    res.json(allbookings);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+    console.error(error.message);
+  }
+});
 
 router.get("/:slotId", async (req, res) => {
   slotId = req.params.slotId;
@@ -25,17 +34,6 @@ router.get("/:slotId", async (req, res) => {
   res.json(slot)
 });
 
-router.get("/allbookings", async (req, res) => {
-  let allbookings = [];
-  try {
-    allbookings = await Slot.find({ isDeleted: false });
-  } catch (error) {
-    res.status(400).json({ error: "server error" });
-    console.log(error.message);
-  }
-  console.log(allbookings);
-  res.json(allbookings);
-});
 
 router.post("/update-slot/:slotId", async (req, res) => {
   slotId = req.params.slotId;
